@@ -1,6 +1,7 @@
 package net.hectobyte.bloodyfool.assignment1;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -107,7 +108,14 @@ public class MainActivity extends AppCompatActivity {
                     number.append("9");
                     break;
                 case R.id.search:
-                    number.setText(PhoneNumberUtils.formatNumber("+31620800710"));
+                    Intent getCountryScreen = new Intent(MainActivity.this, Main2Activity.class);
+
+                    final int result = 1;
+
+                    getCountryScreen.putExtra("phonenumber", number.getText().toString());
+
+                    startActivity(getCountryScreen);
+
                     break;
             }
         }
