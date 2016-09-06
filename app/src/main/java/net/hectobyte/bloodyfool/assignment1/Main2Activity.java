@@ -47,29 +47,29 @@ public class Main2Activity extends AppCompatActivity {
         Set<String> set = PhoneNumberUtil.getInstance().getSupportedRegions();
 
         String[] arr = set.toArray(new String[set.size()]);
+        if(pNumber.length()>2)
+            if(pNumber.charAt(0)=='0'&&pNumber.charAt(1)=='0'&&pNumber.charAt(2)!='0') {
+                pNumber = "+" + pNumber.substring(2);
 
-        if(pNumber.charAt(0)=='0'&&pNumber.charAt(1)=='0'&&pNumber.charAt(2)!='0') {
-            pNumber = "+" + pNumber.substring(2);
+                try {
+                    Phonenumber.PhoneNumber numberP = phoneUtil.parse(pNumber, "");
+                    countryCode = numberP.getCountryCode();
+                    country.setText("is a ");
+                    isValid = phoneUtil.isValidNumber(numberP);
+                    isMobile = phoneUtil.getNumberType(numberP);
+                    if(!isValid)
+                        country.append("non-");
+                    country.append("valid ");
+                    if(isMobile == PhoneNumberUtil.PhoneNumberType.MOBILE)
+                        country.append("mobile ");
+                    country.append("number from ");
+                    Locale locale = new Locale(phoneUtil.getRegionCodeForNumber(numberP), phoneUtil.getRegionCodeForNumber(numberP));
+                    country.append(locale.getDisplayCountry());
 
-            try {
-                Phonenumber.PhoneNumber numberP = phoneUtil.parse(pNumber, "");
-                countryCode = numberP.getCountryCode();
-                country.setText("is a ");
-                isValid = phoneUtil.isValidNumber(numberP);
-                isMobile = phoneUtil.getNumberType(numberP);
-                if(!isValid)
-                    country.append("non-");
-                country.append("valid ");
-                if(isMobile == PhoneNumberUtil.PhoneNumberType.MOBILE)
-                    country.append("mobile ");
-                country.append("number from ");
-                Locale locale = new Locale(phoneUtil.getRegionCodeForNumber(numberP), phoneUtil.getRegionCodeForNumber(numberP));
-                country.append(locale.getDisplayCountry());
-
-            } catch (NumberParseException e) {
-                country.setText("Number is invalid");
+                } catch (NumberParseException e) {
+                    country.setText("Number is invalid");
+                }
             }
-        }
         else {
             country.setText("Number is invalid");
         }
